@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "homepage": "https://zkindest.github.io/",
+  "homepage": "https://zkindest.github.io/fe-c5-search-ip-domain",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

@@ -2,7 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_GEO_API: string
-  // more env variables...
+  readonly VITE_MAPBOX_TOKEN: string
 }
 
 interface ImportMeta {

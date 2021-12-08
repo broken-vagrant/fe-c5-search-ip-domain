@@ -100,11 +100,14 @@ body {
 }
 
 
+.top-half {
+  height: 35vh;
+}
 .bg-top {
-  /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(75,29,171,1) 0%, rgba(55,0,254,1) 72%); */
   background: url('/images/pattern-bg.png') no-repeat;
   background-size: cover;
   position: relative;
+  height: 100%;
 }
 .search-wrapper {
   text-align: center;
@@ -147,6 +150,12 @@ body {
   height: 100%;
   background-color: black;
   border-radius: 0 1rem 1rem 0;
+}
+.search .error {
+  font-size: .7em;
+  color: red;
+  text-align: left;
+  padding: .5em 1.5em;
 }
 .end-adornment:hover {
   opacity: .8;
@@ -194,18 +203,17 @@ body {
 .details .box + .box {
   border-left: 1px solid lightgray;
 }
-.map-wrapper {
+.bottom-half {
   position: relative;
-  margin-top: -4rem;
   z-index: 0;
-  height: 66vh;
+  height: calc(100vh - 35vh);
 }
 #map {
   height: 100%;
 }
 @media screen and (max-width: 375px) {
   .search-wrapper {
-    font-size: .7rem;
+    font-size: .8rem;
     padding-left: .5rem;
     padding-right: .5rem;
   }
@@ -218,12 +226,8 @@ body {
   }
   .details {
     flex-direction: column;
-    margin-top: -6rem;
   }
   .details .box + .box {
     border: 0;
-  }
-  .map-wrapper {
-    margin-top: -10rem;
   }
 }
