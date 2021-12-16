@@ -118,7 +118,7 @@ function App() {
         <div className="top-half">
           <section className="bg-top">
             <div className="search-wrapper">
-              <h2>IP Address Tracker</h2>
+              <h1>IP Address Tracker</h1>
               <div className="search">
                 <form onSubmit={(e) => {
                   e.preventDefault(); // don't actually submit the form
