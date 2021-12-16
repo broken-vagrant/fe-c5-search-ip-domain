@@ -21,20 +21,20 @@ interface IpGeoInfo {
 
 function App() {
   const [search, setSearch] = useState('192.212.174.101');
-  const [{ info, error }, setData] = useState<{
-    info: IpGeoInfo | null,
+  const [{ data, error }, setData] = useState<{
+    data: IpGeoInfo | null,
     error: string
   }>({
-    info: null,
+    data: null,
     error: ''
   });
   const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
 
-    if (info) {
+    if (data) {
 
-      const { lat, lng } = info.location;
+      const { lat, lng } = data.location;
 
       if (!mapRef.current) {
         // store reference to Leaflet map instance if not exists
@@ -58,7 +58,7 @@ function App() {
       }
     }
 
-  }, [info]);
+  }, [data]);
 
 
   const fetchData = useCallback(async (search: string) => {
@@ -71,22 +71,32 @@ function App() {
     else {
       queryString += `&domain=${search}`
     }
-    const response = await fetch(`https://geo.ipify.org/api/v1?${queryString}`, {
-      method: 'GET',
-    })
 
-    if (response.status === 200) {
-      const data = await response.json();
-      setData({
-        info: data,
-        error: ''
+    try {
+      const response = await fetch(`https://geo.ipify.org/api/v1?${queryString}`, {
+        method: 'GET',
       })
+
+      if (response.status === 200) {
+        const data = await response.json();
+        setData({
+          data: data,
+          error: ''
+        })
+      }
+      else {
+        setData({
+          data: null,
+          error: response.statusText
+        })
+      }
     }
-    else {
+    catch (err) {
       setData({
-        info: null,
-        error: response.statusText
+        data: null,
+        error: 'Something went Wrong!'
       })
+      console.error(err);
     }
   }, [])
 
@@ -130,19 +140,19 @@ function App() {
             <div className="details">
               <div className="box">
                 <span className="label">IP Address</span>
-                <span className="value">{info ? info.ip : '...'}</span>
+                <span className="value">{data ? data.ip : '...'}</span>
               </div>
               <div className="box">
                 <span className="label">Location</span>
-                <span className="value">{info ? `${info.location.city} ${info.location.region} ${info.location.postalCode}` : '...'}</span>
+                <span className="value">{data ? `${data.location.city} ${data.location.region} ${data.location.postalCode}` : '...'}</span>
               </div>
               <div className="box">
                 <span className="label">Timezone</span>
-                <span className="value">{info ? `UTC${info.location.timezone}` : '...'}</span>
+                <span className="value">{data ? `UTC${data.location.timezone}` : '...'}</span>
               </div>
               <div className="box">
                 <span className="label">ISP</span>
-                <span className="value">{info ? info.isp : '...'}</span>
+                <span className="value">{data ? data.isp : '...'}</span>
               </div>
             </div>
           </div>
