@@ -1,20 +1,18 @@
-export interface JobItem {
-  id: number;
-  company: string;
-  logo: string;
-  new: boolean;
-  featured: boolean;
-  position: string;
-  role: string;
-  level: string;
-  postedAt: string;
-  contract: string;
-  location: string;
-  languages: string[];
-  tools: string[];
+export interface IpGeoInfo {
+  location: {
+    country: string,
+    region: string,
+    city: string,
+    lat: number,
+    lng: number,
+    postalCode?: string,
+    timezone?: string,
+    geonameId?: number
+  }
+  isp: string,
+  ip: string
 }
 
-export interface Action {
-  type: 'filter-add' | 'clear' | 'filter-remove' | 'init';
-  payload?: any;
-}
+export type Action<T, P = undefined> = P extends undefined ? { type: T } : { type: T, payload: P }
+
+export type IPGeoAddressAction = Action<'INIT'> | Action<'FETCH_LOCATION_STARTED'> | Action<'FETCH_LOCATION_FAILED', { error: string }> | Action<'FETCH_LOCATION_SUCCESS', IpGeoInfo> | Action<'INIT_SEARCH', { search: string }> | Action<'IPFY_BALANCE', number>

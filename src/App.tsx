@@ -1,115 +1,105 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import './App.css';
-import * as L from 'leaflet';
-import isValidIP from './utils/isValidIP';
 import getGeoIpfyBalance from './utils/getGeoIpfyBalance';
+import { IPGeoAddressAction, IpGeoInfo } from './type';
+import Details from './Details';
+import Search from './Search';
+import useMap from './hooks/useMap';
+import fetchLocation from './utils/fetchLocation';
 
-interface IpGeoInfo {
-  location: {
-    country: string,
-    region: string,
-    city: string,
-    lat: number,
-    lng: number,
-    postalCode?: string,
-    timezone?: string,
-    geonameId?: number
+const initialState = {
+  data: null,
+  error: '',
+  loading: false,
+  search: '192.212.174.101',
+  geoIPFYBalance: 0
+}
+interface InitialState {
+  data: null | IpGeoInfo,
+  error: string,
+  loading: boolean
+  search: string
+  geoIPFYBalance: number
+}
+
+function reducer(state: InitialState, action: IPGeoAddressAction) {
+  switch (action.type) {
+    case 'INIT_SEARCH':
+      return { ...state, search: action.payload.search };
+    case 'FETCH_LOCATION_STARTED':
+      return { ...state, loading: true };
+    case 'FETCH_LOCATION_FAILED':
+      return { ...state, loading: false, error: action.payload.error };
+    case 'FETCH_LOCATION_SUCCESS':
+      return { ...state, loading: false, error: '', data: action.payload };
+    case 'IPFY_BALANCE':
+      return { ...state, geoIPFYBalance: action.payload }
+    default:
+      return state
   }
-  isp: string,
-  ip: string
 }
 
 function App() {
-  const [search, setSearch] = useState('192.212.174.101');
-  const [{ data, error }, setData] = useState<{
-    data: IpGeoInfo | null,
-    error: string
-  }>({
-    data: null,
-    error: ''
-  });
-  const mapRef = useRef<L.Map | null>(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => {
+  const map = useMap(state?.data?.location.lat, state.data?.location.lng);
 
-    if (data) {
-
-      const { lat, lng } = data.location;
-
-      if (!mapRef.current) {
-        // store reference to Leaflet map instance if not exists
-
-        const map = L.map('map').setView([lat, lng], 13);
-
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-          maxZoom: 18,
-          id: 'mapbox/streets-v11',
-          tileSize: 512,
-          zoomOffset: -1,
-          accessToken: import.meta.env.VITE_MAPBOX_TOKEN as string
-        }).addTo(map);
-
-        mapRef.current = map;
-      }
-      else {
-        // if Leaflet instance exists, just mutate object
-        mapRef.current.setView([lat, lng], 13)
-      }
-    }
-
-  }, [data]);
-
-
-  const fetchData = useCallback(async (search: string) => {
-
-    let queryString = `apiKey=${import.meta.env.VITE_GEO_API}`;
-
-    if (isValidIP(search)) {
-      queryString += `&ipAddress=${search}`;
-    }
-    else {
-      queryString += `&domain=${search}`
-    }
-
+  const fetchData = useCallback(async (value: string) => {
     try {
-      const response = await fetch(`https://geo.ipify.org/api/v1?${queryString}`, {
-        method: 'GET',
-      })
+      dispatch({ type: 'FETCH_LOCATION_STARTED' })
+      const response = await fetchLocation(value);
 
       if (response.status === 200) {
         const data = await response.json();
-        setData({
-          data: data,
-          error: ''
-        })
+        dispatch({ type: 'FETCH_LOCATION_SUCCESS', payload: data })
       }
       else {
-        setData({
-          data: null,
-          error: response.statusText
+        dispatch({
+          type: "FETCH_LOCATION_FAILED", payload: {
+            error: 'Not Found!'
+          }
         })
       }
     }
     catch (err) {
-      setData({
-        data: null,
-        error: 'Something went Wrong!'
+      dispatch({
+        type: "FETCH_LOCATION_FAILED", payload: {
+          error: 'Something went wrong!'
+        }
       })
       console.error(err);
     }
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
-    // load first search data on render
+    console.log('searching for:', state.search);
+    // if (state.geoIPFYBalance > 0) {
+    fetchData(state.search)
+    // }
+
+  }, [state.search])
+
+  useEffect(() => {
+    // check API credit balance on first load
+    // fetch data if balance !== 0
     getGeoIpfyBalance().then((balance) => {
+      dispatch({ type: 'IPFY_BALANCE', payload: balance })
       if (balance === 0) {
         alert('Oops, I ran out free credits for Geo Ipify Service. This Website doesn\'t work without it, Bye!')
         return;
-      } else {
-        fetchData(search);
       }
     });
+  }, [])
+
+  useEffect(() => {
+    // source: https://stackoverflow.com/questions/32963400/android-keyboard-shrinking-the-viewport-and-elements-using-unit-vh-in-css
+    let viewheight = window.innerHeight;
+    let viewport = document.querySelector("meta[name=viewport]") as HTMLMetaElement;
+    if (!viewport) {
+      console.error('Please set viewport meta tag!');
+      return;
+    }
+    viewport?.setAttribute("content", viewport.content + "," + "height=" + viewheight);
   }, [])
 
   return (
@@ -119,43 +109,10 @@ function App() {
           <section className="bg-top">
             <div className="search-wrapper">
               <h1>IP Address Tracker</h1>
-              <div className="search">
-                <form onSubmit={(e) => {
-                  e.preventDefault(); // don't actually submit the form
-                  fetchData(search);
-                }}>
-                  <input name="search" type="text" onChange={(e) => setSearch(e.target.value)} value={search} placeholder="Search for any IP address or domain" />
-                  {
-                    error ? (
-                      <p className="error">{error}</p>
-                    ) : null
-                  }
-                  <button className="end-adornment" aria-label="click to search" onClick={() => fetchData(search)}>
-                  </button>
-                </form>
-              </div>
+              <Search isLoading={state.loading} error={state.error} dispatch={dispatch} />
             </div>
           </section>
-          <div className="details-wrapper">
-            <div className="details">
-              <div className="box">
-                <span className="label">IP Address</span>
-                <span className="value">{data ? data.ip : '...'}</span>
-              </div>
-              <div className="box">
-                <span className="label">Location</span>
-                <span className="value">{data ? `${data.location.city} ${data.location.region} ${data.location.postalCode}` : '...'}</span>
-              </div>
-              <div className="box">
-                <span className="label">Timezone</span>
-                <span className="value">{data ? `UTC${data.location.timezone}` : '...'}</span>
-              </div>
-              <div className="box">
-                <span className="label">ISP</span>
-                <span className="value">{data ? data.isp : '...'}</span>
-              </div>
-            </div>
-          </div>
+          <Details data={state.data} />
         </div>
         <div className="bottom-half">
           <div id="map"></div>

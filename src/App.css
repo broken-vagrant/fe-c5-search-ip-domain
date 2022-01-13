@@ -74,8 +74,11 @@ h6 {
 }
 
 :root {
-  --vw-mobile-max: 375px;
-  --vw-desktop-min: 1440px;
+  --vw-sm: 640px;
+  --vw-md: 768px;
+  --vw-lg: 1024px;
+  --vw-xl: 1280px;
+  --vw-2xl: 1536px;
 
   --very-dark-gray: hsl(0, 0%, 17%);
   --dark-gray: hsl(0, 0%, 59%);
@@ -124,7 +127,7 @@ body {
 .search-wrapper {
   text-align: center;
   color: white;
-  padding: 2rem 5rem 7rem;
+  padding: 2em 5em 7em;
   font-size: 1rem;
 }
 .search-wrapper h1 {
@@ -133,88 +136,7 @@ body {
   margin-bottom: 1.5em;
 }
 
-.search {
-  border-radius: 1rem;
-  background-color: white;
-  width: 40%;
-  position: relative;
-  display: inline-block;
-  padding-right: 3em;
-}
-.search input {
-  border: 0;
-  outline: 0;
-  line-height: 1.5rem;
-  width: 100%;
-  height: 100%;
-  padding: 1em;
-  border-radius: 1rem;
-}
-.search .end-adornment {
-  cursor: pointer;
-  border: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: url("/images/icon-arrow.svg") no-repeat;
-  background-position: center;
-  width: 3em;
-  height: 100%;
-  background-color: black;
-  border-radius: 0 1rem 1rem 0;
-}
-.search .error {
-  font-size: 0.7em;
-  color: red;
-  text-align: left;
-  padding: 0.5em 1.5em;
-}
-.end-adornment:hover {
-  opacity: 0.8;
-}
 
-.details-wrapper {
-  position: relative;
-  user-select: none;
-  width: 75%;
-  margin: 0 auto;
-  z-index: 1;
-  font-size: 1rem;
-}
-.details {
-  padding: 1em;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 0.5rem;
-  width: 100%;
-  margin: 0 auto;
-  background-color: white;
-  margin-top: -4rem;
-  box-shadow: var(--shadow-elevation-high);
-}
-.details .box {
-  margin: 0.5em;
-  padding: 0.5em 1em;
-  flex-basis: 25%;
-}
-.details .box span {
-  display: block;
-}
-.details .box .label {
-  font-size: 0.7em;
-  color: var(--dark-gray);
-  text-transform: uppercase;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-}
-.details .box .value {
-  color: var(--very-dark-gray);
-  font-size: 1.4em;
-  font-weight: 500;
-}
-.details .box + .box {
-  border-left: 1px solid lightgray;
-}
 .bottom-half {
   position: relative;
   z-index: 0;
@@ -223,23 +145,14 @@ body {
 #map {
   height: 100%;
 }
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 768px) {
   .search-wrapper {
     font-size: 0.8rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 1em;
   }
-  .search-wrapper .search {
-    width: 100%;
-  }
-  .details-wrapper {
-    width: 90%;
-    font-size: 0.7rem;
-  }
-  .details {
-    flex-direction: column;
-  }
-  .details .box + .box {
-    border: 0;
+  .search-wrapper h1 {
+    margin-bottom: .5em;
   }
 }
