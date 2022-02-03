@@ -73,9 +73,9 @@ function App() {
 
   useEffect(() => {
     console.log('searching for:', state.search);
-    // if (state.geoIPFYBalance > 0) {
-    fetchData(state.search)
-    // }
+    if (state.geoIPFYBalance > 0) {
+      fetchData(state.search)
+    }
 
   }, [state.search])
 
