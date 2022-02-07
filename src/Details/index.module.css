@@ -5,6 +5,7 @@
   margin: 0 auto;
   z-index: 1;
   font-size: 1rem;
+  margin-top: 1rem;
 }
 .details {
   font-size: 1rem;
@@ -15,7 +16,8 @@
   border-radius: 0.5rem;
   width: 100%;
   margin: 0 auto;
-  background-color: white;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(2px) contrast(0.5);
   margin-top: -4rem;
   box-shadow: var(--shadow-elevation-high);
 }
@@ -24,7 +26,8 @@
   padding: 0.5em 1em;
   flex-basis: 25%;
 }
-.details dt,dd {
+.details dt,
+dd {
   display: block;
 }
 .details dt {
@@ -64,7 +67,7 @@
     margin: 0;
   }
   .details div + div {
-    margin-top: .7em;
+    margin-top: 0.7em;
     border: 0;
   }
 }

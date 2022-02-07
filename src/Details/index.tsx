@@ -6,7 +6,7 @@ interface Props {
 }
 const Details = ({ data }: Props) => {
 
-  const { ip, isp, location } = data || {};
+  const { ip, isp, city, zipcode, state_prov, time_zone } = data || {};
 
   return (
     <div className={classes.details__wrapper}>
@@ -17,11 +17,11 @@ const Details = ({ data }: Props) => {
         </div>
         <div>
           <dt>Location</dt>
-          <dd>{location ? `${location.city || ''} ${location.region || ''} ${location.postalCode || ''}` : '...'}</dd>
+          <dd>{city ? `${city || ''}, ${state_prov || ''} ${zipcode || ''}` : '...'}</dd>
         </div>
         <div>
           <dt>Timezone</dt>
-          <dd>{location ? `UTC${location.timezone}` : '...'}</dd>
+          <dd>{time_zone ? `UTC ${time_zone.offset > 0 ? `+${time_zone.offset}` : time_zone.offset}` : '...'}</dd>
         </div>
         <div>
           <dt>ISP</dt>

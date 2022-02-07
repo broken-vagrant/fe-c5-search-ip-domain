@@ -1,7 +1,9 @@
-import { Ref, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import * as L from 'leaflet';
 
-const useMap = (lat?: number, lng?: number) => {
+const useMap = (_lat?: number | string, _lng?: number | string) => {
+  const lat = Number(_lat);
+  const lng = Number(_lng);
   const mapRef = useRef<L.Map | null>(null);
   useEffect(() => {
     if (lat && lng) {
