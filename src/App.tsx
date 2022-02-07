@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import './App.css';
-import getGeoIpfyBalance from './utils/getGeoIpfyBalance';
 import { IPGeoAddressAction, IpGeoInfo } from './type';
 import Details from './Details';
 import Search from './Search';
@@ -75,18 +74,6 @@ function App() {
     console.log('searching for:', state.search);
     fetchData(state.search)
   }, [state.search])
-
-  // useEffect(() => {
-  //   // check API credit balance on first load
-  //   // fetch data if balance !== 0
-  //   getGeoIpfyBalance().then((balance) => {
-  //     dispatch({ type: 'IPFY_BALANCE', payload: balance })
-  //     if (balance === 0) {
-  //       alert('Oops, I ran out free credits for Geo Ipify Service. This Website doesn\'t work without it, Bye!')
-  //       return;
-  //     }
-  //   });
-  // }, [])
 
   useEffect(() => {
     // source: https://stackoverflow.com/questions/32963400/android-keyboard-shrinking-the-viewport-and-elements-using-unit-vh-in-css
