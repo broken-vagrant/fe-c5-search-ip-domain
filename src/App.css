@@ -105,53 +105,22 @@ body {
   overflow-x: hidden;
   box-sizing: border-box;
   font-size: 18px;
+  font-family: 'Rubik', sans-serif;
 }
 
 .hidden {
   display: none !important;
 }
 
-body {
-  font-family: 'Rubik', sans-serif;
+.app__header {
+  padding: 0.5rem;
+  background-color: lightblue;
 }
-
-.top-half {
-  height: 35vh;
-}
-.bg-top {
-  background: url('/images/pattern-bg.png') no-repeat;
-  background-size: cover;
-  position: relative;
-  height: 100%;
-}
-.search-wrapper {
-  text-align: center;
-  color: white;
-  padding: 2em 5em 7em;
-  font-size: 1rem;
-}
-.search-wrapper h1 {
-  font-size: 1.5em;
-  font-weight: 500;
-  margin-bottom: 1.5em;
-}
-
-.bottom-half {
+.map__wrapper {
   position: relative;
   z-index: 0;
-  height: calc(100vh - 35vh);
+  height: 100vh;
 }
 #map {
   height: 100%;
-}
-@media screen and (max-width: 768px) {
-  .search-wrapper {
-    font-size: 0.8rem;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    padding-top: 1em;
-  }
-  .search-wrapper h1 {
-    margin-bottom: 0.5em;
-  }
 }
