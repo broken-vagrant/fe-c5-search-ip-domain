@@ -115,11 +115,12 @@ body {
 .app__header {
   padding: 0.5rem;
   background-color: lightblue;
+  height: 4rem;
 }
 .map__wrapper {
   position: relative;
   z-index: 0;
-  height: 100vh;
+  height: calc(100vh - 4rem);
 }
 #map {
   height: 100%;
