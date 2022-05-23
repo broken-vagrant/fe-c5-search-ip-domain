@@ -8,14 +8,32 @@ import FloatingButton from './Components/FloatingButton'
 import RightSidepane from './Components/RightSidePane'
 
 const initialSearch = '192.212.174.101'
+const prevSearchStoreKey = 'zkindest-Prev-Search'
 function App() {
   useMobileKeyboardShrinkFix()
-  const [search, setSearch] = React.useState(initialSearch)
+  const [search, setSearch] = React.useState(() => {
+    return (
+      (sessionStorage && sessionStorage.getItem(prevSearchStoreKey)) ||
+      initialSearch
+    )
+  })
+
   const [showDetails, setShowDetails] = React.useState(true)
 
-  const { data, isLoading, error } = useFetchLocation(search)
+  const { data, isLoading, error } = useFetchLocation({
+    search,
+    onSuccess: () => {
+      setShowDetails(true)
+    },
+  })
 
   useMap(data?.latitude, data?.longitude as string)
+  const handleSubmit = (search: string) => {
+    if (sessionStorage) {
+      sessionStorage.setItem(prevSearchStoreKey, search)
+    }
+    setSearch(search)
+  }
 
   return (
     <div className="app">
@@ -23,8 +41,8 @@ function App() {
         <SearchBar
           isLoading={isLoading}
           error={error}
-          onSubmit={(search) => setSearch(search)}
-          initialValue={initialSearch}
+          onSubmit={handleSubmit}
+          initialValue={search}
         />
       </header>
       <RightSidepane data={data} show={showDetails} />
