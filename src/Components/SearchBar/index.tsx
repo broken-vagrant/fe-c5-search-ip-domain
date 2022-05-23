@@ -1,7 +1,6 @@
 import { Dispatch, useState } from 'react'
-import EosIconsBubbleLoading from '../Components/EosIconsBubbleLoading'
-import LaSearch from '../Components/LaSearch'
-import { IPGeoAddressAction } from '../type'
+import { SearchIcon, LoadingAnimationIcon } from '../icons'
+import { IPGeoAddressAction } from '../../type'
 import classes from './index.module.css'
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
   dispatch: Dispatch<IPGeoAddressAction>
   error?: string
 }
-const Search = ({ dispatch, isLoading, error }: Props) => {
+const SearchBar = ({ dispatch, isLoading, error }: Props) => {
   const [search, setSearch] = useState('192.212.174.101')
   return (
     <div className={classes.search}>
@@ -35,7 +34,7 @@ const Search = ({ dispatch, isLoading, error }: Props) => {
               dispatch({ type: 'INIT_SEARCH', payload: { search } })
             }
           >
-            {isLoading ? <EosIconsBubbleLoading /> : <LaSearch />}
+            {isLoading ? <LoadingAnimationIcon /> : <SearchIcon />}
           </button>
         </form>
       </div>
@@ -44,4 +43,4 @@ const Search = ({ dispatch, isLoading, error }: Props) => {
   )
 }
 
-export default Search
+export default SearchBar

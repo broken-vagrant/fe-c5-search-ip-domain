@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useReducer } from 'react'
+import * as React from 'react'
 import './App.css'
 import { IPGeoAddressAction, IpGeoInfo } from './type'
-import Details from './Details'
-import Search from './Search'
+import LocationDetails from './Components/LocationDetails'
+import SearchBar from './Components/SearchBar'
 import useMap from './hooks/useMap'
 import fetchLocation from './utils/fetchLocation'
+import useMobileKeyboardShrinkFix from './hooks/useMobileKeyboardShrinkFix'
 
 const initialState = {
   data: null,
@@ -39,11 +40,12 @@ function reducer(state: InitialState, action: IPGeoAddressAction) {
 }
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = React.useReducer(reducer, initialState)
 
   useMap(state?.data?.latitude as string, state?.data?.longitude as string)
+  useMobileKeyboardShrinkFix()
 
-  const fetchData = useCallback(
+  const fetchData = React.useCallback(
     async (value: string) => {
       try {
         dispatch({ type: 'FETCH_LOCATION_STARTED' })
@@ -73,26 +75,10 @@ function App() {
     [dispatch]
   )
 
-  useEffect(() => {
+  React.useEffect(() => {
     console.log('searching for:', state.search)
     fetchData(state.search)
   }, [state.search])
-
-  useEffect(() => {
-    // source: https://stackoverflow.com/questions/32963400/android-keyboard-shrinking-the-viewport-and-elements-using-unit-vh-in-css
-    let viewheight = window.innerHeight
-    let viewport = document.querySelector(
-      'meta[name=viewport]'
-    ) as HTMLMetaElement
-    if (!viewport) {
-      console.error('Please set viewport meta tag!')
-      return
-    }
-    viewport?.setAttribute(
-      'content',
-      viewport.content + ',' + 'height=' + viewheight
-    )
-  }, [])
 
   return (
     <div className="App">
@@ -101,14 +87,14 @@ function App() {
           <section className="bg-top">
             <div className="search-wrapper">
               <h1>IP Address Tracker</h1>
-              <Search
+              <SearchBar
                 isLoading={state.loading}
                 error={state.error}
                 dispatch={dispatch}
               />
             </div>
           </section>
-          <Details data={state.data} />
+          <LocationDetails data={state.data} />
         </div>
         <div className="bottom-half">
           <div id="map"></div>

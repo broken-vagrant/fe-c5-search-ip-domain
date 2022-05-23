@@ -1,10 +1,10 @@
-import { IpGeoInfo } from '../type'
+import { IpGeoInfo } from '../../type'
 import classes from './index.module.css'
 
 interface Props {
   data: IpGeoInfo | null
 }
-const Details = ({ data }: Props) => {
+const LocationDetails = ({ data }: Props) => {
   const { ip, isp, city, zipcode, state_prov, time_zone } = data || {}
 
   return (
@@ -43,4 +43,4 @@ const Details = ({ data }: Props) => {
   )
 }
 
-export default Details
+export default LocationDetails
