@@ -1,13 +1,10 @@
 import * as React from 'react'
+import { IpGeoInfo } from '../type'
 import fetchLocation from '../utils/fetchLocation'
 
-interface IData {
-  latitude?: string
-  longitude?: string
-}
 const useFetchLocation = (value: string) => {
   const [isLoading, setIsLoading] = React.useState(false)
-  const [data, setData] = React.useState<IData>()
+  const [data, setData] = React.useState<IpGeoInfo>()
   const [error, setError] = React.useState('')
   React.useEffect(() => {
     if (!value) return

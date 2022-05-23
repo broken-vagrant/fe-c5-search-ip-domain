@@ -4,11 +4,14 @@ import SearchBar from './Components/SearchBar'
 import useMap from './hooks/useMap'
 import useMobileKeyboardShrinkFix from './hooks/useMobileKeyboardShrinkFix'
 import useFetchLocation from './hooks/useFetchLocation'
+import FloatingButton from './Components/FloatingButton'
+import RightSidepane from './Components/RightSidePane'
 
 const initialSearch = '192.212.174.101'
 function App() {
   useMobileKeyboardShrinkFix()
   const [search, setSearch] = React.useState(initialSearch)
+  const [showDetails, setShowDetails] = React.useState(true)
 
   const { data, isLoading, error } = useFetchLocation(search)
 
@@ -24,6 +27,8 @@ function App() {
           initialValue={initialSearch}
         />
       </header>
+      <RightSidepane data={data} show={showDetails} />
+      <FloatingButton onClick={() => setShowDetails((prev) => !prev)} />
       <main>
         <div className="map__wrapper">
           <div id="map"></div>

@@ -1,10 +1,7 @@
 import { IpGeoInfo } from '../../type'
 import classes from './index.module.css'
 
-interface Props {
-  data: IpGeoInfo | null
-}
-const LocationDetails = ({ data }: Props) => {
+const LocationDetails = ({ data }: { data: RightSidePaneProps['data'] }) => {
   const { ip, isp, city, zipcode, state_prov, time_zone } = data || {}
 
   return (
@@ -42,5 +39,17 @@ const LocationDetails = ({ data }: Props) => {
     </div>
   )
 }
+interface RightSidePaneProps {
+  data?: IpGeoInfo
+  show: boolean
+}
+const RightSidepane = ({ data, show }: RightSidePaneProps) => {
+  if (!show) return null
+  return (
+    <aside className={classes['right-side-pane']}>
+      <LocationDetails data={data!} />
+    </aside>
+  )
+}
 
-export default LocationDetails
+export default RightSidepane

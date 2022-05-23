@@ -1,40 +1,51 @@
-.details__wrapper {
-  position: relative;
-  user-select: none;
-  width: 75%;
-  margin: 0 auto;
+.right-side-pane {
+  position: fixed;
+  right: 0;
   z-index: 1;
-  font-size: 1rem;
-  margin-top: 1rem;
-}
-.details {
-  font-size: 1rem;
-  position: relative;
-  padding: 1em;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 0.5rem;
-  width: 100%;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(2px) contrast(0.5);
-  margin-top: -4rem;
+  min-width: 30rem;
+  height: calc(100vh - 4rem);
   box-shadow: var(--shadow-elevation-high);
 }
+@media (max-width: 768px) {
+  .right-side-pane {
+    min-width: auto;
+    left: 5rem;
+  }
+}
+
+.details__wrapper {
+  position: relative;
+  height: 100%;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(2px) contrast(0.5);
+  box-shadow: var(--shadow-elevation-high);
+  font-size: 1rem;
+}
+.details {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1em;
+  font-size: 1rem;
+}
 .details > div {
+  flex-basis: 25%;
   margin: 0.5em;
   padding: 0.5em 1em;
-  flex-basis: 25%;
 }
 .details dt,
 dd {
   display: block;
 }
 .details dt {
-  font-size: 0.7em;
   color: var(--dark-gray);
   text-transform: uppercase;
   font-weight: 500;
+  font-size: 0.7em;
   letter-spacing: 0.15em;
 }
 .details dd {
@@ -42,32 +53,24 @@ dd {
   font-size: 1.4em;
   font-weight: 500;
 }
-.details > div + div {
-  border-left: 1px solid lightgray;
-}
 
 @media screen and (max-width: 1024px) {
   .details {
     font-size: 0.85rem;
-    margin-top: -2rem;
   }
 }
 @media screen and (max-width: 768px) {
   .details__wrapper {
-    width: 80%;
     font-size: 0.7rem;
   }
   .details {
-    flex-direction: column;
     text-align: center;
-    margin-top: -6rem;
   }
   .details > div {
-    padding: 0;
     margin: 0;
+    padding: 0;
   }
   .details div + div {
     margin-top: 0.7em;
-    border: 0;
   }
 }
