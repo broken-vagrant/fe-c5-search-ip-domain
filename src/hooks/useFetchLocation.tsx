@@ -13,6 +13,7 @@ const useFetchLocation = ({ search, onSuccess }: UseFetchLocationProps) => {
   React.useEffect(() => {
     if (!search) return
     setIsLoading(true)
+    setError('')
     fetchLocation(search)
       .then((res) => {
         if (res.status === 200) {
