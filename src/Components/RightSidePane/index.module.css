@@ -1,9 +1,10 @@
 .right-side-pane {
   position: fixed;
   right: 0;
-  z-index: 1;
+  z-index: var(--zindex1);
   min-width: 30rem;
   height: calc(100vh - 4rem);
+  top: 4rem;
   box-shadow: var(--shadow-elevation-high);
 }
 @media (max-width: 640px) {
@@ -16,7 +17,7 @@
 .details__wrapper {
   position: relative;
   height: 100%;
-  z-index: 1;
+  z-index: var(--zindex1);
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(2px) contrast(0.5);
   box-shadow: var(--shadow-elevation-high);
@@ -41,14 +42,14 @@ dd {
   display: block;
 }
 .details dt {
-  color: var(--dark-gray);
+  color: var(--colors-gray9);
   text-transform: uppercase;
   font-weight: 500;
   font-size: 0.7em;
   letter-spacing: 0.15em;
 }
 .details dd {
-  color: var(--very-dark-gray);
+  color: var(--colors-gray12);
   font-size: 1.4em;
   font-weight: 500;
 }

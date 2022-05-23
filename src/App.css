@@ -80,8 +80,24 @@ h6 {
   --vw-xl: 1280px;
   --vw-2xl: 1536px;
 
-  --very-dark-gray: hsl(0, 0%, 17%);
-  --dark-gray: hsl(0, 0%, 59%);
+  /* Reference: https://www.radix-ui.com/colors */
+
+  --colors-gray6: hsl(0 0% 88.7%);
+  --colors-gray7: hsl(0 0% 85.8%);
+  --colors-gray8: hsl(0 0% 78%);
+
+  --colors-gray9: hsl(0 0% 56.1%);
+  --colors-gray12: hsl(0 0% 9%);
+
+  --colors-red9: hsl(358 75% 59%);
+  --colors-red10: hsl(358 69.4% 55.2%);
+
+  --blue: blue;
+  --white: white;
+
+  --colors-blue7: hsl(208 77.5% 76.9%);
+  --colors-blue8: hsl(206 81.9% 65.3%);
+  --colors-blue9: hsl(206 100% 50%);
 
   --shadow-color: 280deg 6% 76%;
   --shadow-elevation-low: 0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.17),
@@ -99,6 +115,27 @@ h6 {
     5.7px 11.3px 14.2px -1.8px hsl(var(--shadow-color) / 0.16),
     8.5px 17.1px 21.5px -2.1px hsl(var(--shadow-color) / 0.16),
     12.5px 25px 31.4px -2.5px hsl(var(--shadow-color) / 0.16);
+
+  --gradient1: linear-gradient(
+    45deg,
+    hsl(231deg 93% 58%) 0%,
+    hsl(302deg 69% 47%) 10%,
+    hsl(332deg 99% 58%) 20%,
+    hsl(1deg 100% 69%) 30%,
+    hsl(25deg 93% 64%) 40%,
+    hsl(45deg 67% 62%) 50%,
+    hsl(36deg 77% 59%) 60%,
+    hsl(28deg 85% 58%) 70%,
+    hsl(18deg 92% 59%) 80%,
+    hsl(4deg 95% 62%) 90%,
+    hsl(342deg 96% 50%) 100%
+  );
+  --zindex0: 0;
+  --zindex1: 1;
+  --zindex9999: 9999;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.4rem;
 }
 body {
   width: 100%;
@@ -113,15 +150,22 @@ body {
 }
 
 .app__header {
+  position: sticky;
+  top: 0;
+  width: 100%;
   padding: 0.5rem;
-  background-color: lightblue;
+  background: var(--gradient1);
   height: 4rem;
+  z-index: var(--zindex1);
 }
 .map__wrapper {
   position: relative;
-  z-index: 0;
-  height: calc(100vh - 4rem);
+  z-index: var(--zindex0);
+  height: 100vh;
 }
 #map {
   height: 100%;
+}
+#map .leaflet-top {
+  top: 40%;
 }
