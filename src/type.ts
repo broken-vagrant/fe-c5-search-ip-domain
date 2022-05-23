@@ -21,11 +21,3 @@ export interface IpGeoInfo {
 export type Action<T, P = undefined> = P extends undefined
   ? { type: T }
   : { type: T; payload: P }
-
-export type IPGeoAddressAction =
-  | Action<'INIT'>
-  | Action<'FETCH_LOCATION_STARTED'>
-  | Action<'FETCH_LOCATION_FAILED', { error: string }>
-  | Action<'FETCH_LOCATION_SUCCESS', IpGeoInfo>
-  | Action<'INIT_SEARCH', { search: string }>
-  | Action<'IPFY_BALANCE', number>

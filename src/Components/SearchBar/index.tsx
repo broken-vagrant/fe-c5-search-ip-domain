@@ -1,15 +1,6 @@
-import {
-  ChangeEventHandler,
-  ComponentProps,
-  Dispatch,
-  FormEvent,
-  FormEventHandler,
-  useState,
-} from 'react'
+import { useState } from 'react'
 import { SearchIcon, LoadingAnimationIcon } from '../icons'
-import { IPGeoAddressAction } from '../../type'
 import classes from './index.module.css'
-import useFetchLocation from '../../hooks/useFetchLocation'
 
 interface SearchBarProps {
   isLoading?: boolean
