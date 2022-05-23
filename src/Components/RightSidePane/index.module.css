@@ -6,7 +6,7 @@
   height: calc(100vh - 4rem);
   box-shadow: var(--shadow-elevation-high);
 }
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .right-side-pane {
     min-width: auto;
     left: 5rem;
@@ -30,7 +30,6 @@
   width: 100%;
   margin: 0 auto;
   padding: 1em;
-  font-size: 1rem;
 }
 .details > div {
   flex-basis: 25%;
@@ -54,12 +53,7 @@ dd {
   font-weight: 500;
 }
 
-@media screen and (max-width: 1024px) {
-  .details {
-    font-size: 0.85rem;
-  }
-}
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 640px) {
   .details__wrapper {
     font-size: 0.7rem;
   }

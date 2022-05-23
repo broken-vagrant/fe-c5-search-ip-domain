@@ -34,7 +34,7 @@ const SearchBar = ({
           <button
             type="submit"
             className={classes['end-adornment']}
-            aria-label="click to search"
+            aria-label="search"
           >
             {isLoading ? <LoadingAnimationIcon /> : <SearchIcon />}
           </button>
