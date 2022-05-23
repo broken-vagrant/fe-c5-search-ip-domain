@@ -1,12 +1,11 @@
-import { IpGeoInfo } from "../type";
-import classes from './index.module.css';
+import { IpGeoInfo } from '../type'
+import classes from './index.module.css'
 
 interface Props {
   data: IpGeoInfo | null
 }
 const Details = ({ data }: Props) => {
-
-  const { ip, isp, city, zipcode, state_prov, time_zone } = data || {};
+  const { ip, isp, city, zipcode, state_prov, time_zone } = data || {}
 
   return (
     <div className={classes.details__wrapper}>
@@ -17,11 +16,23 @@ const Details = ({ data }: Props) => {
         </div>
         <div>
           <dt>Location</dt>
-          <dd>{city ? `${city || ''}, ${state_prov || ''} ${zipcode || ''}` : '...'}</dd>
+          <dd>
+            {city
+              ? `${city || ''}, ${state_prov || ''} ${zipcode || ''}`
+              : '...'}
+          </dd>
         </div>
         <div>
           <dt>Timezone</dt>
-          <dd>{time_zone ? `UTC ${time_zone.offset > 0 ? `+${time_zone.offset}` : time_zone.offset}` : '...'}</dd>
+          <dd>
+            {time_zone
+              ? `UTC ${
+                  time_zone.offset > 0
+                    ? `+${time_zone.offset}`
+                    : time_zone.offset
+                }`
+              : '...'}
+          </dd>
         </div>
         <div>
           <dt>ISP</dt>
@@ -32,4 +43,4 @@ const Details = ({ data }: Props) => {
   )
 }
 
-export default Details;
+export default Details

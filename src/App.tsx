@@ -1,21 +1,21 @@
-import { useCallback, useEffect, useReducer } from 'react';
-import './App.css';
-import { IPGeoAddressAction, IpGeoInfo } from './type';
-import Details from './Details';
-import Search from './Search';
-import useMap from './hooks/useMap';
-import fetchLocation from './utils/fetchLocation';
+import { useCallback, useEffect, useReducer } from 'react'
+import './App.css'
+import { IPGeoAddressAction, IpGeoInfo } from './type'
+import Details from './Details'
+import Search from './Search'
+import useMap from './hooks/useMap'
+import fetchLocation from './utils/fetchLocation'
 
 const initialState = {
   data: null,
   error: '',
   loading: false,
   search: '192.212.174.101',
-  geoIPFYBalance: 0
+  geoIPFYBalance: 0,
 }
 interface InitialState {
-  data: null | IpGeoInfo,
-  error: string,
+  data: null | IpGeoInfo
+  error: string
   loading: boolean
   search: string
   geoIPFYBalance: number
@@ -24,13 +24,13 @@ interface InitialState {
 function reducer(state: InitialState, action: IPGeoAddressAction) {
   switch (action.type) {
     case 'INIT_SEARCH':
-      return { ...state, search: action.payload.search };
+      return { ...state, search: action.payload.search }
     case 'FETCH_LOCATION_STARTED':
-      return { ...state, loading: true };
+      return { ...state, loading: true }
     case 'FETCH_LOCATION_FAILED':
-      return { ...state, loading: false, error: action.payload.error };
+      return { ...state, loading: false, error: action.payload.error }
     case 'FETCH_LOCATION_SUCCESS':
-      return { ...state, loading: false, error: '', data: action.payload };
+      return { ...state, loading: false, error: '', data: action.payload }
     case 'IPFY_BALANCE':
       return { ...state, geoIPFYBalance: action.payload }
     default:
@@ -39,51 +39,59 @@ function reducer(state: InitialState, action: IPGeoAddressAction) {
 }
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState)
 
-  const map = useMap(state?.data?.latitude as string, state?.data?.longitude as string);
+  useMap(state?.data?.latitude as string, state?.data?.longitude as string)
 
-  const fetchData = useCallback(async (value: string) => {
-    try {
-      dispatch({ type: 'FETCH_LOCATION_STARTED' })
-      const response = await fetchLocation(value);
+  const fetchData = useCallback(
+    async (value: string) => {
+      try {
+        dispatch({ type: 'FETCH_LOCATION_STARTED' })
+        const response = await fetchLocation(value)
 
-      if (response.status === 200) {
-        const data = await response.json();
-        dispatch({ type: 'FETCH_LOCATION_SUCCESS', payload: data })
-      }
-      else {
-        dispatch({
-          type: "FETCH_LOCATION_FAILED", payload: {
-            error: 'Not Found!'
-          }
-        })
-      }
-    }
-    catch (err) {
-      dispatch({
-        type: "FETCH_LOCATION_FAILED", payload: {
-          error: 'Something went wrong!'
+        if (response.status === 200) {
+          const data = await response.json()
+          dispatch({ type: 'FETCH_LOCATION_SUCCESS', payload: data })
+        } else {
+          dispatch({
+            type: 'FETCH_LOCATION_FAILED',
+            payload: {
+              error: 'Not Found!',
+            },
+          })
         }
-      })
-      console.error(err);
-    }
-  }, [dispatch])
+      } catch (err) {
+        dispatch({
+          type: 'FETCH_LOCATION_FAILED',
+          payload: {
+            error: 'Something went wrong!',
+          },
+        })
+        console.error(err)
+      }
+    },
+    [dispatch]
+  )
 
   useEffect(() => {
-    console.log('searching for:', state.search);
+    console.log('searching for:', state.search)
     fetchData(state.search)
   }, [state.search])
 
   useEffect(() => {
     // source: https://stackoverflow.com/questions/32963400/android-keyboard-shrinking-the-viewport-and-elements-using-unit-vh-in-css
-    let viewheight = window.innerHeight;
-    let viewport = document.querySelector("meta[name=viewport]") as HTMLMetaElement;
+    let viewheight = window.innerHeight
+    let viewport = document.querySelector(
+      'meta[name=viewport]'
+    ) as HTMLMetaElement
     if (!viewport) {
-      console.error('Please set viewport meta tag!');
-      return;
+      console.error('Please set viewport meta tag!')
+      return
     }
-    viewport?.setAttribute("content", viewport.content + "," + "height=" + viewheight);
+    viewport?.setAttribute(
+      'content',
+      viewport.content + ',' + 'height=' + viewheight
+    )
   }, [])
 
   return (
@@ -93,7 +101,11 @@ function App() {
           <section className="bg-top">
             <div className="search-wrapper">
               <h1>IP Address Tracker</h1>
-              <Search isLoading={state.loading} error={state.error} dispatch={dispatch} />
+              <Search
+                isLoading={state.loading}
+                error={state.error}
+                dispatch={dispatch}
+              />
             </div>
           </section>
           <Details data={state.data} />
@@ -103,7 +115,7 @@ function App() {
         </div>
       </main>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

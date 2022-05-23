@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
 
 /* 
   1-9 copied from https://www.joshwcomeau.com/css/custom-css-reset/
@@ -112,14 +112,14 @@ body {
 }
 
 body {
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 .top-half {
   height: 35vh;
 }
 .bg-top {
-  background: url("/images/pattern-bg.png") no-repeat;
+  background: url('/images/pattern-bg.png') no-repeat;
   background-size: cover;
   position: relative;
   height: 100%;
@@ -135,7 +135,6 @@ body {
   font-weight: 500;
   margin-bottom: 1.5em;
 }
-
 
 .bottom-half {
   position: relative;
@@ -153,6 +152,6 @@ body {
     padding-top: 1em;
   }
   .search-wrapper h1 {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 }
